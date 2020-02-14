@@ -1,4 +1,4 @@
-grammar littleG;
+grammar LittleG;
 
 /* Program */
 program : 'PROGRAM' id 'BEGIN' pgm_body 'END' ; 
@@ -61,13 +61,6 @@ compop : '<' | '>' | '=' | '!=' | '<=' | '>=' ;
 /* While statements */
 while_stmt : 'WHILE' '(' cond ')' decl stmt_list 'ENDWHILE' ;
 
-INTLITERAL : [0-9]+ ;
-FLOATLITERAL: [0-9]+.[0-9]+ ;
-
-STRINGLITERAL: ('"'.*?'"') ;
-
-COMMENT:[-]{2}()*? ;
-
 PROGRAM : 'PROGRAM' ;
 BEGIN : 'BEGIN' ;
 END : 'END' ;
@@ -86,6 +79,17 @@ INT : 'INT' ;
 VOID : 'VOID' ;
 STRING : 'STRING' ;
 FLOAT : 'FLOAT' ;
+
+IDENTIFIER : ([a-zA-Z])([a-zA-Z] | [0-9])*;
+
+INTLITERAL : '0'| [0-9]+ ;
+FLOATLITERAL: [0-9]+.[0-9]+ ;
+
+STRINGLITERAL: '"' (~["])* '"';
+
+COMMENT: '--' ~[\n\r]* '\r'? '\n' -> skip;
+
+WS: (' '|'\t'|'\n'|'\r')+ -> skip;
 
 
 OPERATORS : ':=' | '+' | '-' | '*' | '/' | '=' | '!=' | '<' | '>' | '(' | ')' | ';' | ',' | '<=' | '>=' ;

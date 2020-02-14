@@ -1,4 +1,4 @@
-// Generated from littleG.g4 by ANTLR 4.7.1
+// Generated from LittleG.g4 by ANTLR 4.8
 import org.antlr.v4.runtime.atn.*;
 import org.antlr.v4.runtime.dfa.DFA;
 import org.antlr.v4.runtime.*;
@@ -9,8 +9,8 @@ import java.util.Iterator;
 import java.util.ArrayList;
 
 @SuppressWarnings({"all", "warnings", "unchecked", "unused", "cast"})
-public class littleGParser extends Parser {
-	static { RuntimeMetaData.checkVersion("4.7.1", RuntimeMetaData.VERSION); }
+public class LittleGParser extends Parser {
+	static { RuntimeMetaData.checkVersion("4.8", RuntimeMetaData.VERSION); }
 
 	protected static final DFA[] _decisionToDFA;
 	protected static final PredictionContextCache _sharedContextCache =
@@ -18,10 +18,10 @@ public class littleGParser extends Parser {
 	public static final int
 		T__0=1, T__1=2, T__2=3, T__3=4, T__4=5, T__5=6, T__6=7, T__7=8, T__8=9, 
 		T__9=10, T__10=11, T__11=12, T__12=13, T__13=14, T__14=15, T__15=16, T__16=17, 
-		T__17=18, T__18=19, INTLITERAL=20, FLOATLITERAL=21, STRINGLITERAL=22, 
-		COMMENT=23, PROGRAM=24, BEGIN=25, END=26, FUNCTION=27, READ=28, WRITE=29, 
-		IF=30, ELSE=31, ENDIF=32, WHILE=33, ENDWHILE=34, CONTINUE=35, BREAK=36, 
-		RETURN=37, INT=38, VOID=39, STRING=40, FLOAT=41, OPERATORS=42;
+		T__17=18, T__18=19, PROGRAM=20, BEGIN=21, END=22, FUNCTION=23, READ=24, 
+		WRITE=25, IF=26, ELSE=27, ENDIF=28, WHILE=29, ENDWHILE=30, CONTINUE=31, 
+		BREAK=32, RETURN=33, INT=34, VOID=35, STRING=36, FLOAT=37, IDENTIFIER=38, 
+		INTLITERAL=39, FLOATLITERAL=40, STRINGLITERAL=41, COMMENT=42, WS=43, OPERATORS=44;
 	public static final int
 		RULE_program = 0, RULE_id = 1, RULE_pgm_body = 2, RULE_decl = 3, RULE_string_decl = 4, 
 		RULE_str = 5, RULE_var_decl = 6, RULE_var_type = 7, RULE_any_type = 8, 
@@ -34,31 +34,40 @@ public class littleGParser extends Parser {
 		RULE_expr_list = 31, RULE_expr_list_tail = 32, RULE_primary = 33, RULE_addop = 34, 
 		RULE_mulop = 35, RULE_if_stmt = 36, RULE_else_part = 37, RULE_cond = 38, 
 		RULE_compop = 39, RULE_while_stmt = 40;
-	public static final String[] ruleNames = {
-		"program", "id", "pgm_body", "decl", "string_decl", "str", "var_decl", 
-		"var_type", "any_type", "id_list", "id_tail", "param_decl_list", "param_decl", 
-		"param_decl_tail", "func_declarations", "func_decl", "func_body", "stmt_list", 
-		"stmt", "base_stmt", "assign_stmt", "assign_expr", "read_stmt", "write_stmt", 
-		"return_stmt", "expr", "expr_prefix", "factor", "factor_prefix", "postfix_expr", 
-		"call_expr", "expr_list", "expr_list_tail", "primary", "addop", "mulop", 
-		"if_stmt", "else_part", "cond", "compop", "while_stmt"
-	};
+	private static String[] makeRuleNames() {
+		return new String[] {
+			"program", "id", "pgm_body", "decl", "string_decl", "str", "var_decl", 
+			"var_type", "any_type", "id_list", "id_tail", "param_decl_list", "param_decl", 
+			"param_decl_tail", "func_declarations", "func_decl", "func_body", "stmt_list", 
+			"stmt", "base_stmt", "assign_stmt", "assign_expr", "read_stmt", "write_stmt", 
+			"return_stmt", "expr", "expr_prefix", "factor", "factor_prefix", "postfix_expr", 
+			"call_expr", "expr_list", "expr_list_tail", "primary", "addop", "mulop", 
+			"if_stmt", "else_part", "cond", "compop", "while_stmt"
+		};
+	}
+	public static final String[] ruleNames = makeRuleNames();
 
-	private static final String[] _LITERAL_NAMES = {
-		null, "'IDENTIFIER'", "':='", "';'", "'STRINGLITERAL'", "','", "'('", 
-		"')'", "'INTLITERAL'", "'FLOATLITERAL'", "'+'", "'-'", "'*'", "'/'", "'<'", 
-		"'>'", "'='", "'!='", "'<='", "'>='", null, null, null, null, "'PROGRAM'", 
-		"'BEGIN'", "'END'", "'FUNCTION'", "'READ'", "'WRITE'", "'IF'", "'ELSE'", 
-		"'ENDIF'", "'WHILE'", "'ENDWHILE'", "'CONTINUE'", "'BREAK'", "'RETURN'", 
-		"'INT'", "'VOID'", "'STRING'", "'FLOAT'"
-	};
-	private static final String[] _SYMBOLIC_NAMES = {
-		null, null, null, null, null, null, null, null, null, null, null, null, 
-		null, null, null, null, null, null, null, null, "INTLITERAL", "FLOATLITERAL", 
-		"STRINGLITERAL", "COMMENT", "PROGRAM", "BEGIN", "END", "FUNCTION", "READ", 
-		"WRITE", "IF", "ELSE", "ENDIF", "WHILE", "ENDWHILE", "CONTINUE", "BREAK", 
-		"RETURN", "INT", "VOID", "STRING", "FLOAT", "OPERATORS"
-	};
+	private static String[] makeLiteralNames() {
+		return new String[] {
+			null, "'IDENTIFIER'", "':='", "';'", "'STRINGLITERAL'", "','", "'('", 
+			"')'", "'INTLITERAL'", "'FLOATLITERAL'", "'+'", "'-'", "'*'", "'/'", 
+			"'<'", "'>'", "'='", "'!='", "'<='", "'>='", "'PROGRAM'", "'BEGIN'", 
+			"'END'", "'FUNCTION'", "'READ'", "'WRITE'", "'IF'", "'ELSE'", "'ENDIF'", 
+			"'WHILE'", "'ENDWHILE'", "'CONTINUE'", "'BREAK'", "'RETURN'", "'INT'", 
+			"'VOID'", "'STRING'", "'FLOAT'"
+		};
+	}
+	private static final String[] _LITERAL_NAMES = makeLiteralNames();
+	private static String[] makeSymbolicNames() {
+		return new String[] {
+			null, null, null, null, null, null, null, null, null, null, null, null, 
+			null, null, null, null, null, null, null, null, "PROGRAM", "BEGIN", "END", 
+			"FUNCTION", "READ", "WRITE", "IF", "ELSE", "ENDIF", "WHILE", "ENDWHILE", 
+			"CONTINUE", "BREAK", "RETURN", "INT", "VOID", "STRING", "FLOAT", "IDENTIFIER", 
+			"INTLITERAL", "FLOATLITERAL", "STRINGLITERAL", "COMMENT", "WS", "OPERATORS"
+		};
+	}
+	private static final String[] _SYMBOLIC_NAMES = makeSymbolicNames();
 	public static final Vocabulary VOCABULARY = new VocabularyImpl(_LITERAL_NAMES, _SYMBOLIC_NAMES);
 
 	/**
@@ -93,7 +102,7 @@ public class littleGParser extends Parser {
 	}
 
 	@Override
-	public String getGrammarFileName() { return "littleG.g4"; }
+	public String getGrammarFileName() { return "LittleG.g4"; }
 
 	@Override
 	public String[] getRuleNames() { return ruleNames; }
@@ -104,28 +113,32 @@ public class littleGParser extends Parser {
 	@Override
 	public ATN getATN() { return _ATN; }
 
-	public littleGParser(TokenStream input) {
+	public LittleGParser(TokenStream input) {
 		super(input);
 		_interp = new ParserATNSimulator(this,_ATN,_decisionToDFA,_sharedContextCache);
 	}
+
 	public static class ProgramContext extends ParserRuleContext {
+		public TerminalNode PROGRAM() { return getToken(LittleGParser.PROGRAM, 0); }
 		public IdContext id() {
 			return getRuleContext(IdContext.class,0);
 		}
+		public TerminalNode BEGIN() { return getToken(LittleGParser.BEGIN, 0); }
 		public Pgm_bodyContext pgm_body() {
 			return getRuleContext(Pgm_bodyContext.class,0);
 		}
+		public TerminalNode END() { return getToken(LittleGParser.END, 0); }
 		public ProgramContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_program; }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof littleGListener ) ((littleGListener)listener).enterProgram(this);
+			if ( listener instanceof LittleGListener ) ((LittleGListener)listener).enterProgram(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof littleGListener ) ((littleGListener)listener).exitProgram(this);
+			if ( listener instanceof LittleGListener ) ((LittleGListener)listener).exitProgram(this);
 		}
 	}
 
@@ -165,11 +178,11 @@ public class littleGParser extends Parser {
 		@Override public int getRuleIndex() { return RULE_id; }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof littleGListener ) ((littleGListener)listener).enterId(this);
+			if ( listener instanceof LittleGListener ) ((LittleGListener)listener).enterId(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof littleGListener ) ((littleGListener)listener).exitId(this);
+			if ( listener instanceof LittleGListener ) ((LittleGListener)listener).exitId(this);
 		}
 	}
 
@@ -207,11 +220,11 @@ public class littleGParser extends Parser {
 		@Override public int getRuleIndex() { return RULE_pgm_body; }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof littleGListener ) ((littleGListener)listener).enterPgm_body(this);
+			if ( listener instanceof LittleGListener ) ((LittleGListener)listener).enterPgm_body(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof littleGListener ) ((littleGListener)listener).exitPgm_body(this);
+			if ( listener instanceof LittleGListener ) ((LittleGListener)listener).exitPgm_body(this);
 		}
 	}
 
@@ -254,11 +267,11 @@ public class littleGParser extends Parser {
 		@Override public int getRuleIndex() { return RULE_decl; }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof littleGListener ) ((littleGListener)listener).enterDecl(this);
+			if ( listener instanceof LittleGListener ) ((LittleGListener)listener).enterDecl(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof littleGListener ) ((littleGListener)listener).exitDecl(this);
+			if ( listener instanceof LittleGListener ) ((LittleGListener)listener).exitDecl(this);
 		}
 	}
 
@@ -319,6 +332,7 @@ public class littleGParser extends Parser {
 	}
 
 	public static class String_declContext extends ParserRuleContext {
+		public TerminalNode STRING() { return getToken(LittleGParser.STRING, 0); }
 		public IdContext id() {
 			return getRuleContext(IdContext.class,0);
 		}
@@ -331,11 +345,11 @@ public class littleGParser extends Parser {
 		@Override public int getRuleIndex() { return RULE_string_decl; }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof littleGListener ) ((littleGListener)listener).enterString_decl(this);
+			if ( listener instanceof LittleGListener ) ((LittleGListener)listener).enterString_decl(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof littleGListener ) ((littleGListener)listener).exitString_decl(this);
+			if ( listener instanceof LittleGListener ) ((LittleGListener)listener).exitString_decl(this);
 		}
 	}
 
@@ -375,11 +389,11 @@ public class littleGParser extends Parser {
 		@Override public int getRuleIndex() { return RULE_str; }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof littleGListener ) ((littleGListener)listener).enterStr(this);
+			if ( listener instanceof LittleGListener ) ((LittleGListener)listener).enterStr(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof littleGListener ) ((littleGListener)listener).exitStr(this);
+			if ( listener instanceof LittleGListener ) ((LittleGListener)listener).exitStr(this);
 		}
 	}
 
@@ -417,11 +431,11 @@ public class littleGParser extends Parser {
 		@Override public int getRuleIndex() { return RULE_var_decl; }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof littleGListener ) ((littleGListener)listener).enterVar_decl(this);
+			if ( listener instanceof LittleGListener ) ((LittleGListener)listener).enterVar_decl(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof littleGListener ) ((littleGListener)listener).exitVar_decl(this);
+			if ( listener instanceof LittleGListener ) ((LittleGListener)listener).exitVar_decl(this);
 		}
 	}
 
@@ -451,17 +465,19 @@ public class littleGParser extends Parser {
 	}
 
 	public static class Var_typeContext extends ParserRuleContext {
+		public TerminalNode FLOAT() { return getToken(LittleGParser.FLOAT, 0); }
+		public TerminalNode INT() { return getToken(LittleGParser.INT, 0); }
 		public Var_typeContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_var_type; }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof littleGListener ) ((littleGListener)listener).enterVar_type(this);
+			if ( listener instanceof LittleGListener ) ((LittleGListener)listener).enterVar_type(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof littleGListener ) ((littleGListener)listener).exitVar_type(this);
+			if ( listener instanceof LittleGListener ) ((LittleGListener)listener).exitVar_type(this);
 		}
 	}
 
@@ -499,17 +515,18 @@ public class littleGParser extends Parser {
 		public Var_typeContext var_type() {
 			return getRuleContext(Var_typeContext.class,0);
 		}
+		public TerminalNode VOID() { return getToken(LittleGParser.VOID, 0); }
 		public Any_typeContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_any_type; }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof littleGListener ) ((littleGListener)listener).enterAny_type(this);
+			if ( listener instanceof LittleGListener ) ((LittleGListener)listener).enterAny_type(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof littleGListener ) ((littleGListener)listener).exitAny_type(this);
+			if ( listener instanceof LittleGListener ) ((LittleGListener)listener).exitAny_type(this);
 		}
 	}
 
@@ -563,11 +580,11 @@ public class littleGParser extends Parser {
 		@Override public int getRuleIndex() { return RULE_id_list; }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof littleGListener ) ((littleGListener)listener).enterId_list(this);
+			if ( listener instanceof LittleGListener ) ((LittleGListener)listener).enterId_list(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof littleGListener ) ((littleGListener)listener).exitId_list(this);
+			if ( listener instanceof LittleGListener ) ((LittleGListener)listener).exitId_list(this);
 		}
 	}
 
@@ -607,11 +624,11 @@ public class littleGParser extends Parser {
 		@Override public int getRuleIndex() { return RULE_id_tail; }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof littleGListener ) ((littleGListener)listener).enterId_tail(this);
+			if ( listener instanceof LittleGListener ) ((LittleGListener)listener).enterId_tail(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof littleGListener ) ((littleGListener)listener).exitId_tail(this);
+			if ( listener instanceof LittleGListener ) ((LittleGListener)listener).exitId_tail(this);
 		}
 	}
 
@@ -667,11 +684,11 @@ public class littleGParser extends Parser {
 		@Override public int getRuleIndex() { return RULE_param_decl_list; }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof littleGListener ) ((littleGListener)listener).enterParam_decl_list(this);
+			if ( listener instanceof LittleGListener ) ((LittleGListener)listener).enterParam_decl_list(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof littleGListener ) ((littleGListener)listener).exitParam_decl_list(this);
+			if ( listener instanceof LittleGListener ) ((LittleGListener)listener).exitParam_decl_list(this);
 		}
 	}
 
@@ -725,11 +742,11 @@ public class littleGParser extends Parser {
 		@Override public int getRuleIndex() { return RULE_param_decl; }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof littleGListener ) ((littleGListener)listener).enterParam_decl(this);
+			if ( listener instanceof LittleGListener ) ((LittleGListener)listener).enterParam_decl(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof littleGListener ) ((littleGListener)listener).exitParam_decl(this);
+			if ( listener instanceof LittleGListener ) ((LittleGListener)listener).exitParam_decl(this);
 		}
 	}
 
@@ -769,11 +786,11 @@ public class littleGParser extends Parser {
 		@Override public int getRuleIndex() { return RULE_param_decl_tail; }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof littleGListener ) ((littleGListener)listener).enterParam_decl_tail(this);
+			if ( listener instanceof LittleGListener ) ((LittleGListener)listener).enterParam_decl_tail(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof littleGListener ) ((littleGListener)listener).exitParam_decl_tail(this);
+			if ( listener instanceof LittleGListener ) ((LittleGListener)listener).exitParam_decl_tail(this);
 		}
 	}
 
@@ -828,11 +845,11 @@ public class littleGParser extends Parser {
 		@Override public int getRuleIndex() { return RULE_func_declarations; }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof littleGListener ) ((littleGListener)listener).enterFunc_declarations(this);
+			if ( listener instanceof LittleGListener ) ((LittleGListener)listener).enterFunc_declarations(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof littleGListener ) ((littleGListener)listener).exitFunc_declarations(this);
+			if ( listener instanceof LittleGListener ) ((LittleGListener)listener).exitFunc_declarations(this);
 		}
 	}
 
@@ -873,15 +890,18 @@ public class littleGParser extends Parser {
 	}
 
 	public static class Func_declContext extends ParserRuleContext {
+		public TerminalNode FUNCTION() { return getToken(LittleGParser.FUNCTION, 0); }
 		public Any_typeContext any_type() {
 			return getRuleContext(Any_typeContext.class,0);
 		}
 		public IdContext id() {
 			return getRuleContext(IdContext.class,0);
 		}
+		public TerminalNode BEGIN() { return getToken(LittleGParser.BEGIN, 0); }
 		public Func_bodyContext func_body() {
 			return getRuleContext(Func_bodyContext.class,0);
 		}
+		public TerminalNode END() { return getToken(LittleGParser.END, 0); }
 		public Param_decl_listContext param_decl_list() {
 			return getRuleContext(Param_decl_listContext.class,0);
 		}
@@ -891,11 +911,11 @@ public class littleGParser extends Parser {
 		@Override public int getRuleIndex() { return RULE_func_decl; }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof littleGListener ) ((littleGListener)listener).enterFunc_decl(this);
+			if ( listener instanceof LittleGListener ) ((LittleGListener)listener).enterFunc_decl(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof littleGListener ) ((littleGListener)listener).exitFunc_decl(this);
+			if ( listener instanceof LittleGListener ) ((LittleGListener)listener).exitFunc_decl(this);
 		}
 	}
 
@@ -947,11 +967,11 @@ public class littleGParser extends Parser {
 		@Override public int getRuleIndex() { return RULE_func_body; }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof littleGListener ) ((littleGListener)listener).enterFunc_body(this);
+			if ( listener instanceof LittleGListener ) ((LittleGListener)listener).enterFunc_body(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof littleGListener ) ((littleGListener)listener).exitFunc_body(this);
+			if ( listener instanceof LittleGListener ) ((LittleGListener)listener).exitFunc_body(this);
 		}
 	}
 
@@ -991,11 +1011,11 @@ public class littleGParser extends Parser {
 		@Override public int getRuleIndex() { return RULE_stmt_list; }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof littleGListener ) ((littleGListener)listener).enterStmt_list(this);
+			if ( listener instanceof LittleGListener ) ((LittleGListener)listener).enterStmt_list(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof littleGListener ) ((littleGListener)listener).exitStmt_list(this);
+			if ( listener instanceof LittleGListener ) ((LittleGListener)listener).exitStmt_list(this);
 		}
 	}
 
@@ -1059,11 +1079,11 @@ public class littleGParser extends Parser {
 		@Override public int getRuleIndex() { return RULE_stmt; }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof littleGListener ) ((littleGListener)listener).enterStmt(this);
+			if ( listener instanceof LittleGListener ) ((LittleGListener)listener).enterStmt(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof littleGListener ) ((littleGListener)listener).exitStmt(this);
+			if ( listener instanceof LittleGListener ) ((LittleGListener)listener).exitStmt(this);
 		}
 	}
 
@@ -1132,11 +1152,11 @@ public class littleGParser extends Parser {
 		@Override public int getRuleIndex() { return RULE_base_stmt; }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof littleGListener ) ((littleGListener)listener).enterBase_stmt(this);
+			if ( listener instanceof LittleGListener ) ((LittleGListener)listener).enterBase_stmt(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof littleGListener ) ((littleGListener)listener).exitBase_stmt(this);
+			if ( listener instanceof LittleGListener ) ((LittleGListener)listener).exitBase_stmt(this);
 		}
 	}
 
@@ -1200,11 +1220,11 @@ public class littleGParser extends Parser {
 		@Override public int getRuleIndex() { return RULE_assign_stmt; }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof littleGListener ) ((littleGListener)listener).enterAssign_stmt(this);
+			if ( listener instanceof LittleGListener ) ((LittleGListener)listener).enterAssign_stmt(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof littleGListener ) ((littleGListener)listener).exitAssign_stmt(this);
+			if ( listener instanceof LittleGListener ) ((LittleGListener)listener).exitAssign_stmt(this);
 		}
 	}
 
@@ -1244,11 +1264,11 @@ public class littleGParser extends Parser {
 		@Override public int getRuleIndex() { return RULE_assign_expr; }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof littleGListener ) ((littleGListener)listener).enterAssign_expr(this);
+			if ( listener instanceof LittleGListener ) ((LittleGListener)listener).enterAssign_expr(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof littleGListener ) ((littleGListener)listener).exitAssign_expr(this);
+			if ( listener instanceof LittleGListener ) ((LittleGListener)listener).exitAssign_expr(this);
 		}
 	}
 
@@ -1278,6 +1298,7 @@ public class littleGParser extends Parser {
 	}
 
 	public static class Read_stmtContext extends ParserRuleContext {
+		public TerminalNode READ() { return getToken(LittleGParser.READ, 0); }
 		public Id_listContext id_list() {
 			return getRuleContext(Id_listContext.class,0);
 		}
@@ -1287,11 +1308,11 @@ public class littleGParser extends Parser {
 		@Override public int getRuleIndex() { return RULE_read_stmt; }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof littleGListener ) ((littleGListener)listener).enterRead_stmt(this);
+			if ( listener instanceof LittleGListener ) ((LittleGListener)listener).enterRead_stmt(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof littleGListener ) ((littleGListener)listener).exitRead_stmt(this);
+			if ( listener instanceof LittleGListener ) ((LittleGListener)listener).exitRead_stmt(this);
 		}
 	}
 
@@ -1325,6 +1346,7 @@ public class littleGParser extends Parser {
 	}
 
 	public static class Write_stmtContext extends ParserRuleContext {
+		public TerminalNode WRITE() { return getToken(LittleGParser.WRITE, 0); }
 		public Id_listContext id_list() {
 			return getRuleContext(Id_listContext.class,0);
 		}
@@ -1334,11 +1356,11 @@ public class littleGParser extends Parser {
 		@Override public int getRuleIndex() { return RULE_write_stmt; }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof littleGListener ) ((littleGListener)listener).enterWrite_stmt(this);
+			if ( listener instanceof LittleGListener ) ((LittleGListener)listener).enterWrite_stmt(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof littleGListener ) ((littleGListener)listener).exitWrite_stmt(this);
+			if ( listener instanceof LittleGListener ) ((LittleGListener)listener).exitWrite_stmt(this);
 		}
 	}
 
@@ -1372,6 +1394,7 @@ public class littleGParser extends Parser {
 	}
 
 	public static class Return_stmtContext extends ParserRuleContext {
+		public TerminalNode RETURN() { return getToken(LittleGParser.RETURN, 0); }
 		public ExprContext expr() {
 			return getRuleContext(ExprContext.class,0);
 		}
@@ -1381,11 +1404,11 @@ public class littleGParser extends Parser {
 		@Override public int getRuleIndex() { return RULE_return_stmt; }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof littleGListener ) ((littleGListener)listener).enterReturn_stmt(this);
+			if ( listener instanceof LittleGListener ) ((LittleGListener)listener).enterReturn_stmt(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof littleGListener ) ((littleGListener)listener).exitReturn_stmt(this);
+			if ( listener instanceof LittleGListener ) ((LittleGListener)listener).exitReturn_stmt(this);
 		}
 	}
 
@@ -1427,11 +1450,11 @@ public class littleGParser extends Parser {
 		@Override public int getRuleIndex() { return RULE_expr; }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof littleGListener ) ((littleGListener)listener).enterExpr(this);
+			if ( listener instanceof LittleGListener ) ((LittleGListener)listener).enterExpr(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof littleGListener ) ((littleGListener)listener).exitExpr(this);
+			if ( listener instanceof LittleGListener ) ((LittleGListener)listener).exitExpr(this);
 		}
 	}
 
@@ -1474,11 +1497,11 @@ public class littleGParser extends Parser {
 		@Override public int getRuleIndex() { return RULE_expr_prefix; }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof littleGListener ) ((littleGListener)listener).enterExpr_prefix(this);
+			if ( listener instanceof LittleGListener ) ((LittleGListener)listener).enterExpr_prefix(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof littleGListener ) ((littleGListener)listener).exitExpr_prefix(this);
+			if ( listener instanceof LittleGListener ) ((LittleGListener)listener).exitExpr_prefix(this);
 		}
 	}
 
@@ -1550,11 +1573,11 @@ public class littleGParser extends Parser {
 		@Override public int getRuleIndex() { return RULE_factor; }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof littleGListener ) ((littleGListener)listener).enterFactor(this);
+			if ( listener instanceof LittleGListener ) ((LittleGListener)listener).enterFactor(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof littleGListener ) ((littleGListener)listener).exitFactor(this);
+			if ( listener instanceof LittleGListener ) ((LittleGListener)listener).exitFactor(this);
 		}
 	}
 
@@ -1597,11 +1620,11 @@ public class littleGParser extends Parser {
 		@Override public int getRuleIndex() { return RULE_factor_prefix; }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof littleGListener ) ((littleGListener)listener).enterFactor_prefix(this);
+			if ( listener instanceof LittleGListener ) ((LittleGListener)listener).enterFactor_prefix(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof littleGListener ) ((littleGListener)listener).exitFactor_prefix(this);
+			if ( listener instanceof LittleGListener ) ((LittleGListener)listener).exitFactor_prefix(this);
 		}
 	}
 
@@ -1673,11 +1696,11 @@ public class littleGParser extends Parser {
 		@Override public int getRuleIndex() { return RULE_postfix_expr; }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof littleGListener ) ((littleGListener)listener).enterPostfix_expr(this);
+			if ( listener instanceof LittleGListener ) ((LittleGListener)listener).enterPostfix_expr(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof littleGListener ) ((littleGListener)listener).exitPostfix_expr(this);
+			if ( listener instanceof LittleGListener ) ((LittleGListener)listener).exitPostfix_expr(this);
 		}
 	}
 
@@ -1728,11 +1751,11 @@ public class littleGParser extends Parser {
 		@Override public int getRuleIndex() { return RULE_call_expr; }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof littleGListener ) ((littleGListener)listener).enterCall_expr(this);
+			if ( listener instanceof LittleGListener ) ((LittleGListener)listener).enterCall_expr(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof littleGListener ) ((littleGListener)listener).exitCall_expr(this);
+			if ( listener instanceof LittleGListener ) ((LittleGListener)listener).exitCall_expr(this);
 		}
 	}
 
@@ -1776,11 +1799,11 @@ public class littleGParser extends Parser {
 		@Override public int getRuleIndex() { return RULE_expr_list; }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof littleGListener ) ((littleGListener)listener).enterExpr_list(this);
+			if ( listener instanceof LittleGListener ) ((LittleGListener)listener).enterExpr_list(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof littleGListener ) ((littleGListener)listener).exitExpr_list(this);
+			if ( listener instanceof LittleGListener ) ((LittleGListener)listener).exitExpr_list(this);
 		}
 	}
 
@@ -1831,11 +1854,11 @@ public class littleGParser extends Parser {
 		@Override public int getRuleIndex() { return RULE_expr_list_tail; }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof littleGListener ) ((littleGListener)listener).enterExpr_list_tail(this);
+			if ( listener instanceof LittleGListener ) ((LittleGListener)listener).enterExpr_list_tail(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof littleGListener ) ((littleGListener)listener).exitExpr_list_tail(this);
+			if ( listener instanceof LittleGListener ) ((LittleGListener)listener).exitExpr_list_tail(this);
 		}
 	}
 
@@ -1890,11 +1913,11 @@ public class littleGParser extends Parser {
 		@Override public int getRuleIndex() { return RULE_primary; }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof littleGListener ) ((littleGListener)listener).enterPrimary(this);
+			if ( listener instanceof LittleGListener ) ((LittleGListener)listener).enterPrimary(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof littleGListener ) ((littleGListener)listener).exitPrimary(this);
+			if ( listener instanceof LittleGListener ) ((LittleGListener)listener).exitPrimary(this);
 		}
 	}
 
@@ -1959,11 +1982,11 @@ public class littleGParser extends Parser {
 		@Override public int getRuleIndex() { return RULE_addop; }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof littleGListener ) ((littleGListener)listener).enterAddop(this);
+			if ( listener instanceof LittleGListener ) ((LittleGListener)listener).enterAddop(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof littleGListener ) ((littleGListener)listener).exitAddop(this);
+			if ( listener instanceof LittleGListener ) ((LittleGListener)listener).exitAddop(this);
 		}
 	}
 
@@ -2004,11 +2027,11 @@ public class littleGParser extends Parser {
 		@Override public int getRuleIndex() { return RULE_mulop; }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof littleGListener ) ((littleGListener)listener).enterMulop(this);
+			if ( listener instanceof LittleGListener ) ((LittleGListener)listener).enterMulop(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof littleGListener ) ((littleGListener)listener).exitMulop(this);
+			if ( listener instanceof LittleGListener ) ((LittleGListener)listener).exitMulop(this);
 		}
 	}
 
@@ -2043,6 +2066,7 @@ public class littleGParser extends Parser {
 	}
 
 	public static class If_stmtContext extends ParserRuleContext {
+		public TerminalNode IF() { return getToken(LittleGParser.IF, 0); }
 		public DeclContext decl() {
 			return getRuleContext(DeclContext.class,0);
 		}
@@ -2052,6 +2076,7 @@ public class littleGParser extends Parser {
 		public Else_partContext else_part() {
 			return getRuleContext(Else_partContext.class,0);
 		}
+		public TerminalNode ENDIF() { return getToken(LittleGParser.ENDIF, 0); }
 		public CondContext cond() {
 			return getRuleContext(CondContext.class,0);
 		}
@@ -2061,11 +2086,11 @@ public class littleGParser extends Parser {
 		@Override public int getRuleIndex() { return RULE_if_stmt; }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof littleGListener ) ((littleGListener)listener).enterIf_stmt(this);
+			if ( listener instanceof LittleGListener ) ((LittleGListener)listener).enterIf_stmt(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof littleGListener ) ((littleGListener)listener).exitIf_stmt(this);
+			if ( listener instanceof LittleGListener ) ((LittleGListener)listener).exitIf_stmt(this);
 		}
 	}
 
@@ -2103,6 +2128,7 @@ public class littleGParser extends Parser {
 	}
 
 	public static class Else_partContext extends ParserRuleContext {
+		public TerminalNode ELSE() { return getToken(LittleGParser.ELSE, 0); }
 		public DeclContext decl() {
 			return getRuleContext(DeclContext.class,0);
 		}
@@ -2115,11 +2141,11 @@ public class littleGParser extends Parser {
 		@Override public int getRuleIndex() { return RULE_else_part; }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof littleGListener ) ((littleGListener)listener).enterElse_part(this);
+			if ( listener instanceof LittleGListener ) ((LittleGListener)listener).enterElse_part(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof littleGListener ) ((littleGListener)listener).exitElse_part(this);
+			if ( listener instanceof LittleGListener ) ((LittleGListener)listener).exitElse_part(this);
 		}
 	}
 
@@ -2177,11 +2203,11 @@ public class littleGParser extends Parser {
 		@Override public int getRuleIndex() { return RULE_cond; }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof littleGListener ) ((littleGListener)listener).enterCond(this);
+			if ( listener instanceof LittleGListener ) ((LittleGListener)listener).enterCond(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof littleGListener ) ((littleGListener)listener).exitCond(this);
+			if ( listener instanceof LittleGListener ) ((LittleGListener)listener).exitCond(this);
 		}
 	}
 
@@ -2217,11 +2243,11 @@ public class littleGParser extends Parser {
 		@Override public int getRuleIndex() { return RULE_compop; }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof littleGListener ) ((littleGListener)listener).enterCompop(this);
+			if ( listener instanceof LittleGListener ) ((LittleGListener)listener).enterCompop(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof littleGListener ) ((littleGListener)listener).exitCompop(this);
+			if ( listener instanceof LittleGListener ) ((LittleGListener)listener).exitCompop(this);
 		}
 	}
 
@@ -2256,6 +2282,7 @@ public class littleGParser extends Parser {
 	}
 
 	public static class While_stmtContext extends ParserRuleContext {
+		public TerminalNode WHILE() { return getToken(LittleGParser.WHILE, 0); }
 		public CondContext cond() {
 			return getRuleContext(CondContext.class,0);
 		}
@@ -2265,17 +2292,18 @@ public class littleGParser extends Parser {
 		public Stmt_listContext stmt_list() {
 			return getRuleContext(Stmt_listContext.class,0);
 		}
+		public TerminalNode ENDWHILE() { return getToken(LittleGParser.ENDWHILE, 0); }
 		public While_stmtContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_while_stmt; }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof littleGListener ) ((littleGListener)listener).enterWhile_stmt(this);
+			if ( listener instanceof LittleGListener ) ((LittleGListener)listener).enterWhile_stmt(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof littleGListener ) ((littleGListener)listener).exitWhile_stmt(this);
+			if ( listener instanceof LittleGListener ) ((LittleGListener)listener).exitWhile_stmt(this);
 		}
 	}
 
@@ -2337,7 +2365,7 @@ public class littleGParser extends Parser {
 	}
 
 	public static final String _serializedATN =
-		"\3\u608b\ua72a\u8133\ub9ed\u417c\u3be7\u7786\u5964\3,\u0127\4\2\t\2\4"+
+		"\3\u608b\ua72a\u8133\ub9ed\u417c\u3be7\u7786\u5964\3.\u0127\4\2\t\2\4"+
 		"\3\t\3\4\4\t\4\4\5\t\5\4\6\t\6\4\7\t\7\4\b\t\b\4\t\t\t\4\n\t\n\4\13\t"+
 		"\13\4\f\t\f\4\r\t\r\4\16\t\16\4\17\t\17\4\20\t\20\4\21\t\21\4\22\t\22"+
 		"\4\23\t\23\4\24\t\24\4\25\t\25\4\26\t\26\4\27\t\27\4\30\t\30\4\31\t\31"+
@@ -2358,7 +2386,7 @@ public class littleGParser extends Parser {
 		"\n\"\3#\3#\3#\3#\3#\3#\3#\5#\u0105\n#\3$\3$\3%\3%\3&\3&\3&\3&\3&\3&\3"+
 		"&\3\'\3\'\3\'\3\'\3\'\5\'\u0117\n\'\3(\3(\3(\3(\3)\3)\3*\3*\3*\3*\3*\3"+
 		"*\3*\3*\3*\2\4\66:+\2\4\6\b\n\f\16\20\22\24\26\30\32\34\36 \"$&(*,.\60"+
-		"\62\64\668:<>@BDFHJLNPR\2\6\4\2((++\3\2\f\r\3\2\16\17\3\2\20\25\2\u0113"+
+		"\62\64\668:<>@BDFHJLNPR\2\6\4\2$$\'\'\3\2\f\r\3\2\16\17\3\2\20\25\2\u0113"+
 		"\2T\3\2\2\2\4Z\3\2\2\2\6\\\3\2\2\2\bf\3\2\2\2\nh\3\2\2\2\fn\3\2\2\2\16"+
 		"p\3\2\2\2\20t\3\2\2\2\22x\3\2\2\2\24z\3\2\2\2\26\u0082\3\2\2\2\30\u0088"+
 		"\3\2\2\2\32\u008a\3\2\2\2\34\u0092\3\2\2\2\36\u0098\3\2\2\2 \u009a\3\2"+
@@ -2367,13 +2395,13 @@ public class littleGParser extends Parser {
 		"\2\64\u00cd\3\2\2\2\66\u00d0\3\2\2\28\u00da\3\2\2\2:\u00dd\3\2\2\2<\u00e9"+
 		"\3\2\2\2>\u00eb\3\2\2\2@\u00f4\3\2\2\2B\u00fb\3\2\2\2D\u0104\3\2\2\2F"+
 		"\u0106\3\2\2\2H\u0108\3\2\2\2J\u010a\3\2\2\2L\u0116\3\2\2\2N\u0118\3\2"+
-		"\2\2P\u011c\3\2\2\2R\u011e\3\2\2\2TU\7\32\2\2UV\5\4\3\2VW\7\33\2\2WX\5"+
-		"\6\4\2XY\7\34\2\2Y\3\3\2\2\2Z[\7\3\2\2[\5\3\2\2\2\\]\5\b\5\2]^\5\36\20"+
+		"\2\2P\u011c\3\2\2\2R\u011e\3\2\2\2TU\7\26\2\2UV\5\4\3\2VW\7\27\2\2WX\5"+
+		"\6\4\2XY\7\30\2\2Y\3\3\2\2\2Z[\7\3\2\2[\5\3\2\2\2\\]\5\b\5\2]^\5\36\20"+
 		"\2^\7\3\2\2\2_`\5\n\6\2`a\5\b\5\2ag\3\2\2\2bc\5\16\b\2cd\5\b\5\2dg\3\2"+
-		"\2\2eg\3\2\2\2f_\3\2\2\2fb\3\2\2\2fe\3\2\2\2g\t\3\2\2\2hi\7*\2\2ij\5\4"+
+		"\2\2eg\3\2\2\2f_\3\2\2\2fb\3\2\2\2fe\3\2\2\2g\t\3\2\2\2hi\7&\2\2ij\5\4"+
 		"\3\2jk\7\4\2\2kl\5\f\7\2lm\7\5\2\2m\13\3\2\2\2no\7\6\2\2o\r\3\2\2\2pq"+
 		"\5\20\t\2qr\5\24\13\2rs\7\5\2\2s\17\3\2\2\2tu\t\2\2\2u\21\3\2\2\2vy\5"+
-		"\20\t\2wy\7)\2\2xv\3\2\2\2xw\3\2\2\2y\23\3\2\2\2z{\5\4\3\2{|\5\26\f\2"+
+		"\20\t\2wy\7%\2\2xv\3\2\2\2xw\3\2\2\2y\23\3\2\2\2z{\5\4\3\2{|\5\26\f\2"+
 		"|\25\3\2\2\2}~\7\7\2\2~\177\5\4\3\2\177\u0080\5\26\f\2\u0080\u0083\3\2"+
 		"\2\2\u0081\u0083\3\2\2\2\u0082}\3\2\2\2\u0082\u0081\3\2\2\2\u0083\27\3"+
 		"\2\2\2\u0084\u0085\5\32\16\2\u0085\u0086\5\34\17\2\u0086\u0089\3\2\2\2"+
@@ -2383,9 +2411,9 @@ public class littleGParser extends Parser {
 		"\3\2\2\2\u0091\u0093\3\2\2\2\u0092\u008d\3\2\2\2\u0092\u0091\3\2\2\2\u0093"+
 		"\35\3\2\2\2\u0094\u0095\5 \21\2\u0095\u0096\5\36\20\2\u0096\u0099\3\2"+
 		"\2\2\u0097\u0099\3\2\2\2\u0098\u0094\3\2\2\2\u0098\u0097\3\2\2\2\u0099"+
-		"\37\3\2\2\2\u009a\u009b\7\35\2\2\u009b\u009c\5\22\n\2\u009c\u009d\5\4"+
-		"\3\2\u009d\u009e\5\30\r\2\u009e\u009f\7\33\2\2\u009f\u00a0\5\"\22\2\u00a0"+
-		"\u00a1\7\34\2\2\u00a1!\3\2\2\2\u00a2\u00a3\5\b\5\2\u00a3\u00a4\5$\23\2"+
+		"\37\3\2\2\2\u009a\u009b\7\31\2\2\u009b\u009c\5\22\n\2\u009c\u009d\5\4"+
+		"\3\2\u009d\u009e\5\30\r\2\u009e\u009f\7\27\2\2\u009f\u00a0\5\"\22\2\u00a0"+
+		"\u00a1\7\30\2\2\u00a1!\3\2\2\2\u00a2\u00a3\5\b\5\2\u00a3\u00a4\5$\23\2"+
 		"\u00a4#\3\2\2\2\u00a5\u00a6\5&\24\2\u00a6\u00a7\5$\23\2\u00a7\u00aa\3"+
 		"\2\2\2\u00a8\u00aa\3\2\2\2\u00a9\u00a5\3\2\2\2\u00a9\u00a8\3\2\2\2\u00aa"+
 		"%\3\2\2\2\u00ab\u00af\5(\25\2\u00ac\u00af\5J&\2\u00ad\u00af\5R*\2\u00ae"+
@@ -2394,11 +2422,11 @@ public class littleGParser extends Parser {
 		"\5\62\32\2\u00b4\u00b0\3\2\2\2\u00b4\u00b1\3\2\2\2\u00b4\u00b2\3\2\2\2"+
 		"\u00b4\u00b3\3\2\2\2\u00b5)\3\2\2\2\u00b6\u00b7\5,\27\2\u00b7\u00b8\7"+
 		"\5\2\2\u00b8+\3\2\2\2\u00b9\u00ba\5\4\3\2\u00ba\u00bb\7\4\2\2\u00bb\u00bc"+
-		"\5\64\33\2\u00bc-\3\2\2\2\u00bd\u00be\7\36\2\2\u00be\u00bf\7\b\2\2\u00bf"+
+		"\5\64\33\2\u00bc-\3\2\2\2\u00bd\u00be\7\32\2\2\u00be\u00bf\7\b\2\2\u00bf"+
 		"\u00c0\5\24\13\2\u00c0\u00c1\7\t\2\2\u00c1\u00c2\7\5\2\2\u00c2/\3\2\2"+
-		"\2\u00c3\u00c4\7\37\2\2\u00c4\u00c5\7\b\2\2\u00c5\u00c6\5\24\13\2\u00c6"+
-		"\u00c7\7\t\2\2\u00c7\u00c8\7\5\2\2\u00c8\61\3\2\2\2\u00c9\u00ca\7\'\2"+
-		"\2\u00ca\u00cb\5\64\33\2\u00cb\u00cc\7\5\2\2\u00cc\63\3\2\2\2\u00cd\u00ce"+
+		"\2\u00c3\u00c4\7\33\2\2\u00c4\u00c5\7\b\2\2\u00c5\u00c6\5\24\13\2\u00c6"+
+		"\u00c7\7\t\2\2\u00c7\u00c8\7\5\2\2\u00c8\61\3\2\2\2\u00c9\u00ca\7#\2\2"+
+		"\u00ca\u00cb\5\64\33\2\u00cb\u00cc\7\5\2\2\u00cc\63\3\2\2\2\u00cd\u00ce"+
 		"\5\66\34\2\u00ce\u00cf\58\35\2\u00cf\65\3\2\2\2\u00d0\u00d7\b\34\1\2\u00d1"+
 		"\u00d2\f\4\2\2\u00d2\u00d3\58\35\2\u00d3\u00d4\5F$\2\u00d4\u00d6\3\2\2"+
 		"\2\u00d5\u00d1\3\2\2\2\u00d6\u00d9\3\2\2\2\u00d7\u00d5\3\2\2\2\u00d7\u00d8"+
@@ -2417,16 +2445,16 @@ public class littleGParser extends Parser {
 		"\2\u0100\u0105\3\2\2\2\u0101\u0105\5\4\3\2\u0102\u0105\7\n\2\2\u0103\u0105"+
 		"\7\13\2\2\u0104\u00fd\3\2\2\2\u0104\u0101\3\2\2\2\u0104\u0102\3\2\2\2"+
 		"\u0104\u0103\3\2\2\2\u0105E\3\2\2\2\u0106\u0107\t\3\2\2\u0107G\3\2\2\2"+
-		"\u0108\u0109\t\4\2\2\u0109I\3\2\2\2\u010a\u010b\7 \2\2\u010b\u010c\5N"+
-		"(\2\u010c\u010d\5\b\5\2\u010d\u010e\5$\23\2\u010e\u010f\5L\'\2\u010f\u0110"+
-		"\7\"\2\2\u0110K\3\2\2\2\u0111\u0112\7!\2\2\u0112\u0113\5\b\5\2\u0113\u0114"+
-		"\5$\23\2\u0114\u0117\3\2\2\2\u0115\u0117\3\2\2\2\u0116\u0111\3\2\2\2\u0116"+
-		"\u0115\3\2\2\2\u0117M\3\2\2\2\u0118\u0119\5\64\33\2\u0119\u011a\5P)\2"+
-		"\u011a\u011b\5\64\33\2\u011bO\3\2\2\2\u011c\u011d\t\5\2\2\u011dQ\3\2\2"+
-		"\2\u011e\u011f\7#\2\2\u011f\u0120\7\b\2\2\u0120\u0121\5N(\2\u0121\u0122"+
-		"\7\t\2\2\u0122\u0123\5\b\5\2\u0123\u0124\5$\23\2\u0124\u0125\7$\2\2\u0125"+
-		"S\3\2\2\2\22fx\u0082\u0088\u0092\u0098\u00a9\u00ae\u00b4\u00d7\u00e4\u00e9"+
-		"\u00f4\u00fb\u0104\u0116";
+		"\u0108\u0109\t\4\2\2\u0109I\3\2\2\2\u010a\u010b\7\34\2\2\u010b\u010c\5"+
+		"N(\2\u010c\u010d\5\b\5\2\u010d\u010e\5$\23\2\u010e\u010f\5L\'\2\u010f"+
+		"\u0110\7\36\2\2\u0110K\3\2\2\2\u0111\u0112\7\35\2\2\u0112\u0113\5\b\5"+
+		"\2\u0113\u0114\5$\23\2\u0114\u0117\3\2\2\2\u0115\u0117\3\2\2\2\u0116\u0111"+
+		"\3\2\2\2\u0116\u0115\3\2\2\2\u0117M\3\2\2\2\u0118\u0119\5\64\33\2\u0119"+
+		"\u011a\5P)\2\u011a\u011b\5\64\33\2\u011bO\3\2\2\2\u011c\u011d\t\5\2\2"+
+		"\u011dQ\3\2\2\2\u011e\u011f\7\37\2\2\u011f\u0120\7\b\2\2\u0120\u0121\5"+
+		"N(\2\u0121\u0122\7\t\2\2\u0122\u0123\5\b\5\2\u0123\u0124\5$\23\2\u0124"+
+		"\u0125\7 \2\2\u0125S\3\2\2\2\22fx\u0082\u0088\u0092\u0098\u00a9\u00ae"+
+		"\u00b4\u00d7\u00e4\u00e9\u00f4\u00fb\u0104\u0116";
 	public static final ATN _ATN =
 		new ATNDeserializer().deserialize(_serializedATN.toCharArray());
 	static {
