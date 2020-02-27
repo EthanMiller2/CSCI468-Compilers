@@ -2,13 +2,13 @@ grammar LittleG;
 
 /* Program */
 program : 'PROGRAM' id 'BEGIN' pgm_body 'END' ; 
-id : 'IDENTIFIER' ;
+id : IDENTIFIER ;
 pgm_body : decl func_declarations ;
 decl : string_decl decl | var_decl decl | ;
 
 /* Global String Declaration */
 string_decl : 'STRING' id ':=' str ';' ;
-str : 'STRINGLITERAL' ;
+str : STRINGLITERAL ;
 
 /* Variable Declaration */
 var_decl : var_type id_list ';' ;

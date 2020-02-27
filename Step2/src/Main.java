@@ -21,14 +21,14 @@ public class Main {
 
         System.out.println(tree.toStringTree(parser));
 
-//        int numErrors = parser.getNumberOfSyntaxErrors();
-//        System.out.println(numErrors);
-//        if(numErrors != 0){
-//            System.out.println("Not accepted\n");
-//
-//        } else {
-//            System.out.println("Accepted\n");
-//        }
+        int numErrors = parser.getNumberOfSyntaxErrors();
+        System.out.println(numErrors);
+        if(numErrors != 0){
+            System.out.println("Not accepted\n");
+
+        } else {
+            System.out.println("Accepted\n");
+        }
 
 
 
