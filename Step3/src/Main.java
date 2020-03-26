@@ -13,8 +13,8 @@ public class Main {
         final String DECLARATION_ERROR = "DECLARATION ERROR";
         final String ERROR = "error";
         final String ST = "Symbol table ";
-//        String filePath = "/Users/Alex/Documents/School/CSCI468-Compilers/Step3/src/inputs/test21.micro";
-        String filePath = args[0];
+        String filePath = "/Users/Alex/Documents/School/CSCI468-Compilers/Step3/src/inputs/test6.micro";
+//        String filePath = args[0];
         File file = new File(filePath);
         FileInputStream inputStream = new FileInputStream(file);
         ANTLRInputStream input = new ANTLRInputStream(inputStream);

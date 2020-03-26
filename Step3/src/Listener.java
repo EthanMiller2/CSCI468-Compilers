@@ -15,7 +15,7 @@ class Listener extends LittleGBaseListener{
     String errorText = "";
 
     public LinkedHashMap<String, LinkedHashMap<String, String>> getSymbolTable(){
-        if(errorText.isEmpty()){//check if any declaration errors occurred
+        if(errorText.isEmpty()){
             return finalTable;
         } else {
             LinkedHashMap<String,String> error = new LinkedHashMap<String,String>();
@@ -154,11 +154,10 @@ class Listener extends LittleGBaseListener{
         } else if (!(currentScope.containsKey(ctx.id_list().getStart().getText()))){
             currentScope.put(ctx.id_list().getStart().getText(), variableType);
             while(ctxList.getStart().getText().contains(",")){
-                //get next variable id's if any exist and not already declared
                 if(!(currentScope.containsKey(ctxList.id().getStart().getText()))){
                     currentScope.put(ctxList.id().getStart().getText(), variableType);
                     ctxList = ctxList.id_tail();
-                } else{//duplicate declaration found
+                } else{
                     if(errorText.isEmpty()){
                         errorText = ctxList.id().getStart().getText();
                     }
