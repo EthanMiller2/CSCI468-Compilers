@@ -36,15 +36,16 @@ class Listener extends LittleGBaseListener{
     }
 
     @Override public void enterExpr(LittleGParser.ExprContext ctx) {
-        ir.setExpression(true);
+        ir.enterExpression();
     }
 
     @Override public void exitExpr(LittleGParser.ExprContext ctx) {
-        ir.setExpression(false);
+        ir.exitExpression();
     }
-    @Override
-    public void exitAssign_stmt(LittleGParser.Assign_stmtContext ctx){
+
+    @Override public void exitAssign_expr(LittleGParser.Assign_exprContext ctx) {
         ir.exitAssignment(ctx.getChild(0).getText());
+        ir.addPrimary(ctx.getChild(0).getText());
     }
 
     @Override public void exitAddop(LittleGParser.AddopContext ctx) {
@@ -56,19 +57,9 @@ class Listener extends LittleGBaseListener{
     }
 
     @Override public void exitPrimary(LittleGParser.PrimaryContext ctx) {
-       ir.addPrimary(ctx.getText());
+        ir.addPrimary(ctx.getText());
+        ir.addElement(ctx.getText());
     }
-
-
-
-
-
-
-
-
-
-
-
 
 
 
