@@ -5,10 +5,8 @@ import java.util.LinkedHashMap;
  * Created by Alex on 4/21/20.
  */
 public class Tiny {
-
-    final String DECLARATION_ERROR = "DECLARATION ERROR";
-    final String ERROR = "error";
-
+    private final String DECLARATION_ERROR = "DECLARATION ERROR";
+    private final String ERROR = "error";
     private ArrayList<String> output;
     private ArrayList<String> ir;
     private LinkedHashMap<String, LinkedHashMap<String,String>> st;
@@ -19,6 +17,7 @@ public class Tiny {
         output = new ArrayList<String>();
     }
 
+    // public interface to start building tiny code.
     public void buildTiny(){
         try {
             String errorMessage = st.get(DECLARATION_ERROR).get(ERROR);
@@ -35,6 +34,9 @@ public class Tiny {
             });
         }
         int currentReg = 0;
+
+        // loop through entire IR list and generate tiny output.
+        // Append this output to the output list
         for(int i = 0; i < ir.size(); i++) {
             String[] currentIR = ir.get(i).split(" ");
             // handle WRITE and READ
@@ -54,19 +56,77 @@ public class Tiny {
                     String[] parsedStore = currentIR[2].split("T");
                     output.add("move "+ currentIR[1]+ " r"+(Integer.parseInt(parsedStore[1])-1));
                 }
-            } else if (ir.get(i).contains("MULTI")) { // handle MULT
-
+            } else if (ir.get(i).contains("MULI")) { // handle MULI
+                String currentString = ir.get(i);
+                currentString = currentString.replace("$T","");
+                String[] currentStringSplit = currentString.split(" ");
+                output.add("move "+currentStringSplit[1]+" " +
+                        "r"+(Integer.parseInt(currentStringSplit[3])-1));
+                output.add("muli "+currentStringSplit[2]+" " +
+                        "r"+(Integer.parseInt(currentStringSplit[3])-1));
+            } else if (ir.get(i).contains("MULF")) { // handle MULF
+                String currentString = ir.get(i);
+                currentString = currentString.replace("$T","");
+                String[] currentStringSplit = currentString.split(" ");
+                output.add("move "+currentStringSplit[1]+" " +
+                        "r"+(Integer.parseInt(currentStringSplit[3])-1));
+                output.add("mulf "+currentStringSplit[2]+" " +
+                        "r"+(Integer.parseInt(currentStringSplit[3])-1));
+            }else if (ir.get(i).contains("DIVI")) { // handle DIBI
+                String currentString = ir.get(i);
+                currentString = currentString.replace("$T","");
+                String[] currentStringSplit = currentString.split(" ");
+                output.add("move "+currentStringSplit[1]+" " +
+                        "r"+(Integer.parseInt(currentStringSplit[3])-1));
+                output.add("divi "+currentStringSplit[2]+" " +
+                        "r"+(Integer.parseInt(currentStringSplit[3])-1));
+            } else if (ir.get(i).contains("DIVF")) { // handle SUBF
+                String currentString = ir.get(i);
+                currentString = currentString.replace("$T","");
+                String[] currentStringSplit = currentString.split(" ");
+                output.add("move "+currentStringSplit[1]+" " +
+                        "r"+(Integer.parseInt(currentStringSplit[3])-1));
+                output.add("divr "+currentStringSplit[2]+" " +
+                        "r"+(Integer.parseInt(currentStringSplit[3])-1));
+            } else if (ir.get(i).contains("ADDI")) { // handle ADDI
+                String currentString = ir.get(i);
+                currentString = currentString.replace("$T","");
+                String[] currentStringSplit = currentString.split(" ");
+                output.add("move "+currentStringSplit[1]+" " +
+                        "r"+(Integer.parseInt(currentStringSplit[3])-1));
+                output.add("addi "+currentStringSplit[2]+" " +
+                        "r"+(Integer.parseInt(currentStringSplit[3])-1));
+            } else if (ir.get(i).contains("ADDF")) { // handle ADDF
+                String currentString = ir.get(i);
+                currentString = currentString.replace("$T","");
+                String[] currentStringSplit = currentString.split(" ");
+                output.add("move "+currentStringSplit[1]+" " +
+                        "r"+(Integer.parseInt(currentStringSplit[3])-1));
+                output.add("addf "+currentStringSplit[2]+" " +
+                        "r"+(Integer.parseInt(currentStringSplit[3])-1));
+            } else if (ir.get(i).contains("SUBI")) { // handle SUBI
+                String currentString = ir.get(i);
+                currentString = currentString.replace("$T","");
+                String[] currentStringSplit = currentString.split(" ");
+                output.add("move "+currentStringSplit[1]+" " +
+                        "r"+(Integer.parseInt(currentStringSplit[3])-1));
+                output.add("subi "+currentStringSplit[2]+" " +
+                        "r"+(Integer.parseInt(currentStringSplit[3])-1));
+            } else if (ir.get(i).contains("SUBF")) { // handle SUBF
+                String currentString = ir.get(i);
+                currentString = currentString.replace("$T","");
+                String[] currentStringSplit = currentString.split(" ");
+                output.add("move "+currentStringSplit[1]+" " +
+                        "r"+(Integer.parseInt(currentStringSplit[3])-1));
+                output.add("subf "+currentStringSplit[2]+" " +
+                        "r"+(Integer.parseInt(currentStringSplit[3])-1));
             }
         }
-
-
-
-
-
         output.add("sys halt");
         printTiny();
     }
 
+    // print method for the tiny output
     private void printTiny(){
         for(int i = 0; i < output.size(); i++){
             System.out.println(output.get(i));

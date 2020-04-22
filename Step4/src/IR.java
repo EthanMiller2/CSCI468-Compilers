@@ -4,151 +4,189 @@ import java.util.*;
  * Created by Alex on 4/17/20.
  */
 public class IR {
-    private final String LABEL = "LABEL ";
-    private final String LINK = "LINK";
-    private final String READ = "READ";
-    private final String WRITE = "WRITE";
-    private final String STORE = "STORE";
-    private ArrayList<String> ir = new ArrayList<String>();
+    private ArrayList<String> ir;
     private LinkedHashMap<String, LinkedHashMap<String,String>> st;
     private int currentRegister = 1;
-    private boolean inAnExpression = false;
     private boolean notInMulOrAdd = true;
-    private String dataType;
     private String infixString;
     private ArrayList<String> infixExpression;
+    private ArrayList<String> postfixExpression;
     private Stack<Character> stack;
-    private String postfixRep;
+    private Stack<String> irStack;
+    private String postfixString;
     private String currentPrimary = "";
-    private int nestedExpression = 0;
 
+    // IR constructor
     public IR(LinkedHashMap<String, LinkedHashMap<String,String>> st){
         this.st = st;
-        ir.add("IR code");
-
+        ir = new ArrayList<String>();
         stack = new Stack<Character>();
+        irStack = new Stack<String>();
         infixExpression = new ArrayList<String>();
+        postfixExpression = new ArrayList<String>();
+        ir.add("IR code");
     }
-
+    // called when the listener exits the function
     public void exitProgram(){
         ir.add("RET");
         ir.add("tiny code");
         printIR();
         Tiny tiny = new Tiny(ir, st);
-//        tiny.buildTiny();
+        tiny.buildTiny();
     }
-
+    // called when the listener encounters a new function
     public void enterFunction(String functionName){
-        ir.add(LABEL + functionName);
-        ir.add(LINK);
+        ir.add("LABEL " + functionName);
+        ir.add("LINK");
     }
 
+    // called when the listener encounters a read statement
     public void exitRead(String s){
         String[] readVars = s.split(",");
         for(int i = 0; i < readVars.length; i++){
             String variableType = findKeyType(readVars[i]);;
-            ir.add(READ+variableType+" "+readVars[i]);
+            ir.add("READ"+variableType+" "+readVars[i]);
         }
     }
 
+    // called when the listener encounters a write statement
     public void exitWrite(String s){
         String[] writeVars = s.split(",");
         for(int i = 0; i < writeVars.length; i++){
             String variableType = findKeyType(writeVars[i]);;
-            ir.add(WRITE+variableType+" "+writeVars[i]);
+            ir.add("WRITE"+variableType+" "+writeVars[i]);
         }
-
     }
 
+    // called when the listener encounters a primary
+    public void addPrimary(String primary){
+        currentPrimary = primary;
+    }
+
+    // called when the listener enters an expression
     public void enterExpression() {
-        inAnExpression = true;
-        System.out.println("we are now in an expression");
-        System.out.println();
         infixExpression.add("(");
     }
 
+    // called when the listener exits an expression
     public void exitExpression() {
         infixExpression.add(")");
-        inAnExpression = false;
-        System.out.println("we have just left an expression");
     }
 
+    // called when the listener encounters an element
     public void addElement(String element) {
         if(!element.contains("(")){
-            System.out.println("adding element "+element);
             infixExpression.add(element);
         }
     }
 
+    // called when the listener encounters an operator
     public void addOperator(String operator) {
-        System.out.println("adding operator " +operator);
         notInMulOrAdd = false;
         infixExpression.add(operator);
     }
 
+    // Assumes the responsibility of adding most STORE lines of the IR code.
+    // calls for all infix expressions be converted to postfix and subsequently
+    // converts the postfix expressions into IR
     public void exitAssignment(String s){
-        // this is where we will store the last assignemnt
-        System.out.println("Below is the infix expression");
         infixString = "";
         for (String s1 : infixExpression) {
-            System.out.print(s1);
             infixString += s1;
         }
         infixExpression.clear();
-        System.out.println();
-        System.out.println("we will now convert the expression to postfix");
-        postfixRep = "";
+        postfixString = "";
         stack.clear();
         convertInfixToPostfix();
-        System.out.println("now printing postfix rep");
-        System.out.println(postfixRep);
+        convertPostfixToIR();
+        if(notInMulOrAdd) {
+            ir.add("STORE" + findKeyType(s) + " " + currentPrimary + " $T" + currentRegister);
+            ir.add("STORE" + findKeyType(s) + " $T" + currentRegister + " " + s);
+            currentRegister++;
 
-        System.out.println();
-        System.out.println("Assigning expression to " +s);
-
+        } else {
+            notInMulOrAdd = true;
+            ir.add("STORE" + findKeyType(s) + " $T" + (currentRegister-1) + " " + s);
+        }
     }
-    public void convertPostfixToIR(){
 
-    }
+    // converts the postfix expression generated into IR code and appends it to the IR list
+    private void convertPostfixToIR(){
+        String dataType = findDataType(postfixExpression.get(0));
 
-    public void convertInfixToPostfix(){
-        for (int i = 0; i < infixString.length(); i++) {
-            char x = infixString.charAt(i);
-            
-            if (Character.isLetterOrDigit(x)){
-                postfixRep += x;
-            } else if (x == '('){
-                stack.push(x);
-            } else if (x == ')') {
-                while (!stack.isEmpty() && stack.peek() != '('){
-                    postfixRep += stack.pop();
+        for (String pfe : postfixExpression) {
+            if (pfe.equals("+") || pfe.equals("-") || pfe.equals("*") || pfe.equals("/")) {
+                String operand2 = pfeToIR(irStack.remove(0));
+                String operand1 = pfeToIR(irStack.remove(0));
+                if(pfe.equals("*")){
+                    irStack.add(0,"$T"+currentRegister);
+                    ir.add("MUL"+dataType+" "+operand1+" "+operand2+ " $T"+currentRegister++);
+                } else if (pfe.equals("/")){
+                    irStack.add(0,"$T"+currentRegister);
+                    ir.add("DIV"+dataType+" "+operand1+" "+operand2+ " $T"+currentRegister++);
+                } else if(pfe.equals("+")){
+                    irStack.add(0,"$T"+currentRegister);
+                    ir.add("ADD"+dataType+" "+operand1+" "+operand2+ " $T"+currentRegister++);
+                } else if(pfe.equals("-")){
+                    irStack.add(0,"$T"+currentRegister);
+                    ir.add("SUB"+dataType+" "+operand1+" "+operand2+ " $T"+currentRegister++);
                 }
-                stack.pop();
             } else {
-                while (!stack.isEmpty() && precedence(x) <= precedence(stack.peek())){
-                    postfixRep += stack.pop();
-                }
-                stack.push(x);
+                irStack.add(0, pfe);
             }
         }
     }
 
+    // converts and infix string to postfix notation to be easily converted later on
+    public void convertInfixToPostfix(){
+        for (int i = 0; i < infixString.length(); i++) {
+            char x = infixString.charAt(i);
 
+            if (Character.isLetterOrDigit(x)){
+                postfixString += x;
+            } else if (x == '('){
+                stack.push(x);
+            } else if (x == ')') {
+                while (!stack.isEmpty() && stack.peek() != '('){
+                    postfixString += stack.pop();
+                }
+                if(!stack.isEmpty())
+                    stack.pop();
+            } else {
+                while (!stack.isEmpty() && precedence(x) <= precedence(stack.peek())){
+                    postfixString += stack.pop();
+                }
+                stack.push(x);
+            }
+        }
+        postfixExpression.clear();
+        for(int i = 0; i < postfixString.length(); i++){
+            postfixExpression.add(postfixString.charAt(i)+"");
+        }
+    }
+    // Helper method to convert a given post fix expression into IR
+    private String pfeToIR(String pfe) {
+        String dataType;
+        if (isThisANumber(pfe)) {
+            if(pfe.contains(".")){
+                dataType = "F";
+            } else {
+                dataType = "I";
+            }
+            pfe = "$T" + (currentRegister-1);
+            ir.add("STORE" + dataType + " " + pfe + " $T" + currentRegister);
 
+        }
+        return pfe;
+    }
 
+    // various helper methods
+    public void updateSymbolTable(LinkedHashMap<String, LinkedHashMap<String,String>> st){
+        this.st = st;
+    }
 
-
-
-
-
-
-
-
-
-
-
-    public int precedence(char symbol)
-    {
+    // returns the precedence for a given operator
+    private int precedence(char symbol) {
         if(symbol == '*' || symbol == '/') {
             return(2);
         } else if(symbol == '+' || symbol == '-'){
@@ -158,27 +196,23 @@ public class IR {
         }
     }
 
-
-
-
-
-
-
-
-
-    public void addPrimary(String primary){
-        if(inAnExpression==false) {
-//            System.out.println("adding primary "+primary);
-//            this.currentPrimary = primary;
+    // finds the data type of a given string
+    private String findDataType(String s){
+        String dataType;
+        if (isThisANumber(s)) {
+            if(s.contains(".")){
+                dataType = "F";
+            } else {
+                dataType = "I";
+            }
+        } else {
+            dataType = findKeyType(s);
         }
-//        System.out.println("adding primary "+primary);
 
-    }
-    // various helper methods
-    public void updateSymbolTable(LinkedHashMap<String, LinkedHashMap<String,String>> st){
-        this.st = st;
+        return dataType;
     }
 
+    // finds the data type of a given key
     private String findKeyType(String targetKey){
         for (Map.Entry<String, LinkedHashMap<String, String>> scope : st.entrySet()) {
             for (Map.Entry<String, String> scopeTable : scope.getValue().entrySet()) {
@@ -190,22 +224,15 @@ public class IR {
         return null;
     }
 
-
-    private boolean isThisVar(String var) {
-        return var.matches("([a-zA-Z])([a-zA-Z])*");
+    // returns true if the parameter is a number false otherwise
+    private boolean isThisANumber(String number) {
+        return number.matches("[0-9]*(\\.[0-9]+)");
     }
 
-    private boolean isThisOp(String x) {
-        return x.equals("*") || x.equals("/") || x.equals("+") || x.equals("-");
-    }
-
+    // print method to quickly print out the IR list
     private void printIR(){
         for(int i = 0; i < ir.size(); i++){
             System.out.println(";"+ir.get(i));
         }
-    }
-
-    private void reset(){
-        infixExpression.clear();
     }
 }

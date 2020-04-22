@@ -27,6 +27,18 @@ class Listener extends LittleGBaseListener{
         }
     }
 
+    /*
+    These override methods are used when the listener is building the IR code
+    They include:
+        exiting a read statement
+        exiting a write statement
+        entering an expression statement
+        exiting an expression statement
+        exiting an assignment expression statement
+        exiting an addition statement
+        exiting an multiplication statement
+        exiting a primary statement
+     */
     @Override public void exitRead_stmt(LittleGParser.Read_stmtContext ctx) {
         ir.exitRead(ctx.getChild(2).getText());
     }
