@@ -1,8 +1,5 @@
 import java.util.*;
 
-/**
- * Created by Alex on 4/17/20.
- */
 public class IR {
     private ArrayList<String> ir;
     private LinkedHashMap<String, LinkedHashMap<String,String>> st;
@@ -120,7 +117,7 @@ public class IR {
                 String operand1 = pfeToIR(irStack.remove(0));
                 if(pfe.equals("*")){
                     irStack.add(0,"$T"+currentRegister);
-                    ir.add("MUL"+dataType+" "+operand1+" "+operand2+ " $T"+currentRegister++);
+                    ir.add("MULT"+dataType+" "+operand1+" "+operand2+ " $T"+currentRegister++);
                 } else if (pfe.equals("/")){
                     irStack.add(0,"$T"+currentRegister);
                     ir.add("DIV"+dataType+" "+operand1+" "+operand2+ " $T"+currentRegister++);

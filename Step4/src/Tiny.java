@@ -1,9 +1,6 @@
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 
-/**
- * Created by Alex on 4/21/20.
- */
 public class Tiny {
     private final String DECLARATION_ERROR = "DECLARATION ERROR";
     private final String ERROR = "error";
@@ -70,7 +67,7 @@ public class Tiny {
                 String[] currentStringSplit = currentString.split(" ");
                 output.add("move "+currentStringSplit[1]+" " +
                         "r"+(Integer.parseInt(currentStringSplit[3])-1));
-                output.add("mulf "+currentStringSplit[2]+" " +
+                output.add("mulr "+currentStringSplit[2]+" " +
                         "r"+(Integer.parseInt(currentStringSplit[3])-1));
             }else if (ir.get(i).contains("DIVI")) { // handle DIBI
                 String currentString = ir.get(i);
@@ -102,7 +99,7 @@ public class Tiny {
                 String[] currentStringSplit = currentString.split(" ");
                 output.add("move "+currentStringSplit[1]+" " +
                         "r"+(Integer.parseInt(currentStringSplit[3])-1));
-                output.add("addf "+currentStringSplit[2]+" " +
+                output.add("addr "+currentStringSplit[2]+" " +
                         "r"+(Integer.parseInt(currentStringSplit[3])-1));
             } else if (ir.get(i).contains("SUBI")) { // handle SUBI
                 String currentString = ir.get(i);

@@ -2,7 +2,6 @@ PROGRAM expr
 BEGIN
 
 	INT a,b,c,d,e;
-
 	STRING newline := "\n";
 
 	FUNCTION VOID main()
