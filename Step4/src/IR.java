@@ -12,25 +12,30 @@ public class IR {
     private ArrayList<String> ir = new ArrayList<String>();
     private LinkedHashMap<String, LinkedHashMap<String,String>> st;
     private int currentRegister = 1;
-    private boolean expr = false;
+    private boolean inAnExpression = false;
     private boolean notInMulOrAdd = true;
     private String dataType;
-
-    private ArrayList<String> expressionStack;
-    private ArrayList<String> postFixRep;
+    private String infixString;
+    private ArrayList<String> infixExpression;
+    private Stack<Character> stack;
+    private String postfixRep;
     private String currentPrimary = "";
+    private int nestedExpression = 0;
 
     public IR(LinkedHashMap<String, LinkedHashMap<String,String>> st){
         this.st = st;
         ir.add("IR code");
-        expressionStack = new ArrayList<String>();
-        postFixRep = new ArrayList<String>();
+
+        stack = new Stack<Character>();
+        infixExpression = new ArrayList<String>();
     }
 
     public void exitProgram(){
         ir.add("RET");
         ir.add("tiny code");
         printIR();
+        Tiny tiny = new Tiny(ir, st);
+//        tiny.buildTiny();
     }
 
     public void enterFunction(String functionName){
@@ -56,122 +61,120 @@ public class IR {
     }
 
     public void enterExpression() {
-        expr = true;
-        expressionStack.add(0,"(");
+        inAnExpression = true;
+        System.out.println("we are now in an expression");
+        System.out.println();
+        infixExpression.add("(");
     }
 
     public void exitExpression() {
-        expressionStack.add(0,")");
-        clearExpressionStack();
+        infixExpression.add(")");
+        inAnExpression = false;
+        System.out.println("we have just left an expression");
     }
 
     public void addElement(String element) {
-        if (!expr) return;
-        postFixRep.add(element);
+        if(!element.contains("(")){
+            System.out.println("adding element "+element);
+            infixExpression.add(element);
+        }
     }
 
     public void addOperator(String operator) {
+        System.out.println("adding operator " +operator);
         notInMulOrAdd = false;
-
-        if(operator.equals("+") || operator.equals("-")){
-            if (expressionStack.get(0).equals("(") || expressionStack.isEmpty()) {
-                expressionStack.add(0,operator);
-            } else {
-                postFixRep.add(expressionStack.remove(0));
-                addOperator(operator);
-            }
-        } else {
-            if (expressionStack.get(0).equals("*") || expressionStack.get(0).equals("/")) {
-                postFixRep.add(expressionStack.remove(0));
-                addOperator(operator);
-            } else {
-                expressionStack.add(0, operator);
-            }
-        }
-    }
-
-    private void clearExpressionStack() {
-        if (postFixRep.size() == 1) {
-            expressionStack.add(0, postFixRep.get(0));
-        } else {
-            expr = false;
-            while (!expressionStack.isEmpty()) {
-                if (!expressionStack.get(0).equals(")") && !expressionStack.get(0).equals("(")) {
-                    postFixRep.add(expressionStack.remove(0));
-                } else {
-                    expressionStack.remove(0);
-                }
-            }
-            expressionToIRRep();
-        }
-        postFixRep.clear();
-    }
-
-    private String elementToIR(String element) {
-        if (isNumber(element)) {
-            if(element.contains(".")){
-                dataType = "F";
-            } else {
-                dataType = "I";
-            }
-
-            ir.add(STORE + dataType + " " + element + " $T" + currentRegister);
-            element = "$T" + (currentRegister-1);
-        }
-        return element;
-    }
-
-
-    private void expressionToIRRep() {
-        if (isNumber(postFixRep.get(0))) {
-            if(postFixRep.get(0).contains(".")){
-                dataType = "F";
-            } else {
-                dataType = "I";
-            }
-        } else {
-            dataType = findKeyType(postFixRep.get(0));
-        }
-
-
-        for (String element : postFixRep) {
-            if (element.equals("+") || element.equals("-") || element.equals("*") || element.equals("/")) {
-                if(element.equals("+")){
-                    expressionStack.add(0,"$T"+currentRegister);
-                    ir.add("ADD"+dataType+" "+elementToIR(expressionStack.remove(1))+" "+elementToIR(expressionStack.remove(0))+ " $T"+currentRegister++);
-                } else if(element.equals("-")){
-                    expressionStack.add(0,"$T"+currentRegister);
-                    ir.add("SUB"+dataType+" "+elementToIR(expressionStack.remove(1))+" "+elementToIR(expressionStack.remove(0))+ " $T"+currentRegister++);
-                } else if(element.equals("*")){
-                    expressionStack.add(0,"$T"+currentRegister);
-                    ir.add("MUL"+dataType+" "+elementToIR(expressionStack.remove(1))+" "+elementToIR(expressionStack.remove(0))+ " $T"+currentRegister++);
-                } else {
-                    expressionStack.add(0,"$T"+currentRegister);
-                    ir.add("DIV"+dataType+" "+elementToIR(expressionStack.remove(1))+" "+elementToIR(expressionStack.remove(0))+ " $T"+currentRegister++);
-                }
-            } else {
-                expressionStack.add(0, element);
-            }
-        }
-    }
-
-    public void addPrimary(String primary){
-        this.currentPrimary = primary;
+        infixExpression.add(operator);
     }
 
     public void exitAssignment(String s){
-        if(notInMulOrAdd) {
-            ir.add(STORE + findKeyType(s) + " " + currentPrimary + " $T" + currentRegister);
-            ir.add(STORE + findKeyType(s) + " $T" + currentRegister + " " + s);
-            currentRegister++;
-
-        } else {
-            notInMulOrAdd = true;
-            ir.add(STORE + findKeyType(s) + " $T" + (currentRegister-1) + " " + s);
+        // this is where we will store the last assignemnt
+        System.out.println("Below is the infix expression");
+        infixString = "";
+        for (String s1 : infixExpression) {
+            System.out.print(s1);
+            infixString += s1;
         }
-        reset();
+        infixExpression.clear();
+        System.out.println();
+        System.out.println("we will now convert the expression to postfix");
+        postfixRep = "";
+        stack.clear();
+        convertInfixToPostfix();
+        System.out.println("now printing postfix rep");
+        System.out.println(postfixRep);
+
+        System.out.println();
+        System.out.println("Assigning expression to " +s);
+
+    }
+    public void convertPostfixToIR(){
+
     }
 
+    public void convertInfixToPostfix(){
+        for (int i = 0; i < infixString.length(); i++) {
+            char x = infixString.charAt(i);
+            
+            if (Character.isLetterOrDigit(x)){
+                postfixRep += x;
+            } else if (x == '('){
+                stack.push(x);
+            } else if (x == ')') {
+                while (!stack.isEmpty() && stack.peek() != '('){
+                    postfixRep += stack.pop();
+                }
+                stack.pop();
+            } else {
+                while (!stack.isEmpty() && precedence(x) <= precedence(stack.peek())){
+                    postfixRep += stack.pop();
+                }
+                stack.push(x);
+            }
+        }
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    public int precedence(char symbol)
+    {
+        if(symbol == '*' || symbol == '/') {
+            return(2);
+        } else if(symbol == '+' || symbol == '-'){
+            return(1);
+        } else {
+            return(0);
+        }
+    }
+
+
+
+
+
+
+
+
+
+    public void addPrimary(String primary){
+        if(inAnExpression==false) {
+//            System.out.println("adding primary "+primary);
+//            this.currentPrimary = primary;
+        }
+//        System.out.println("adding primary "+primary);
+
+    }
+    // various helper methods
     public void updateSymbolTable(LinkedHashMap<String, LinkedHashMap<String,String>> st){
         this.st = st;
     }
@@ -187,8 +190,13 @@ public class IR {
         return null;
     }
 
-    private boolean isNumber(String number) {
-        return number.matches("[0-9]*(\\.[0-9]+)");
+
+    private boolean isThisVar(String var) {
+        return var.matches("([a-zA-Z])([a-zA-Z])*");
+    }
+
+    private boolean isThisOp(String x) {
+        return x.equals("*") || x.equals("/") || x.equals("+") || x.equals("-");
     }
 
     private void printIR(){
@@ -198,7 +206,6 @@ public class IR {
     }
 
     private void reset(){
-        expressionStack.clear();
-        postFixRep.clear();
+        infixExpression.clear();
     }
 }

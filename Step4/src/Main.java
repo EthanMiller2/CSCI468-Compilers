@@ -11,7 +11,7 @@ public class Main {
         final String DECLARATION_ERROR = "DECLARATION ERROR";
         final String ERROR = "error";
         final String ST = "Symbol table ";
-        String filePath = "/Users/Alex/Documents/School/CSCI468-Compilers/Step4/src/inputs/test_mult.micro";
+        String filePath = "/Users/Alex/Documents/School/CSCI468-Compilers/Step4/src/inputs/test_combination.micro";
 //        String filePath = args[0];
         CharStream input = CharStreams.fromFileName(filePath);
         LittleGLexer lexer = new LittleGLexer(input);

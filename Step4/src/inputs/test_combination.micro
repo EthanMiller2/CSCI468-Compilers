@@ -9,11 +9,6 @@ BEGIN
 		b := 30;
 		c := 40;
 
-		c := c + a*b + (a*b+c)/a + 20;
-
-		WRITE (c);
-		WRITE (b);
-		WRITE (a);
-	
+		c := c + a*b + (a*b+c)/a+20;
 	END
 END
