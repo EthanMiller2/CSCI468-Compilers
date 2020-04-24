@@ -8,7 +8,7 @@ public class IR {
     private String infixString;
     private ArrayList<String> infixExpression;
     private ArrayList<String> postfixExpression;
-    private Stack<Character> stack;
+    private Stack<String> stack;
     private Stack<String> irStack;
     private String postfixString;
     private String currentPrimary = "";
@@ -17,7 +17,7 @@ public class IR {
     public IR(LinkedHashMap<String, LinkedHashMap<String,String>> st){
         this.st = st;
         ir = new ArrayList<String>();
-        stack = new Stack<Character>();
+        stack = new Stack<String>();
         irStack = new Stack<String>();
         infixExpression = new ArrayList<String>();
         postfixExpression = new ArrayList<String>();
@@ -88,14 +88,13 @@ public class IR {
     // converts the postfix expressions into IR
     public void exitAssignment(String s){
         infixString = "";
-        for (String s1 : infixExpression) {
-            infixString += s1;
-        }
-        infixExpression.clear();
+
+        postfixExpression.clear();
         postfixString = "";
         stack.clear();
         convertInfixToPostfix();
         convertPostfixToIR();
+        infixExpression.clear();
         if(notInMulOrAdd) {
             ir.add("STORE" + findKeyType(s) + " " + currentPrimary + " $T" + currentRegister);
             ir.add("STORE" + findKeyType(s) + " $T" + currentRegister + " " + s);
@@ -110,7 +109,10 @@ public class IR {
     // converts the postfix expression generated into IR code and appends it to the IR list
     private void convertPostfixToIR(){
         String dataType = findDataType(postfixExpression.get(0));
-
+        for (String s : postfixExpression) {
+            System.out.print(s + " ");
+        }
+        System.out.println();
         for (String pfe : postfixExpression) {
             if (pfe.equals("+") || pfe.equals("-") || pfe.equals("*") || pfe.equals("/")) {
                 String operand2 = pfeToIR(irStack.remove(0));
@@ -126,39 +128,40 @@ public class IR {
                     ir.add("ADD"+dataType+" "+operand1+" "+operand2+ " $T"+currentRegister++);
                 } else if(pfe.equals("-")){
                     irStack.add(0,"$T"+currentRegister);
+//                    System.out.println("op1 :"+operand1 + " op2:"+operand2);
                     ir.add("SUB"+dataType+" "+operand1+" "+operand2+ " $T"+currentRegister++);
                 }
             } else {
                 irStack.add(0, pfe);
             }
         }
+
     }
 
     // converts and infix string to postfix notation to be easily converted later on
     public void convertInfixToPostfix(){
-        for (int i = 0; i < infixString.length(); i++) {
-            char x = infixString.charAt(i);
+//        if(infixExpression.get(0).equals("(")){
+//            infixExpression.remove(0);
+//        }
+        for (int i = 0; i < infixExpression.size(); i++) {
+            String x = infixExpression.get(i);
 
-            if (Character.isLetterOrDigit(x)){
-                postfixString += x;
-            } else if (x == '('){
+            if (!isLetterOrDigit(x)){
+                postfixExpression.add(x);
+            } else if (x.equals("(")){
                 stack.push(x);
-            } else if (x == ')') {
-                while (!stack.isEmpty() && stack.peek() != '('){
-                    postfixString += stack.pop();
+            } else if (x.equals(")")) {
+                while (!stack.isEmpty() && !stack.peek().equals("(")){
+                    postfixExpression.add(stack.pop());
                 }
                 if(!stack.isEmpty())
                     stack.pop();
             } else {
                 while (!stack.isEmpty() && precedence(x) <= precedence(stack.peek())){
-                    postfixString += stack.pop();
+                    postfixExpression.add(stack.pop());
                 }
                 stack.push(x);
             }
-        }
-        postfixExpression.clear();
-        for(int i = 0; i < postfixString.length(); i++){
-            postfixExpression.add(postfixString.charAt(i)+"");
         }
     }
     // Helper method to convert a given post fix expression into IR
@@ -170,23 +173,47 @@ public class IR {
             } else {
                 dataType = "I";
             }
-            pfe = "$T" + (currentRegister-1);
-            ir.add("STORE" + dataType + " " + pfe + " $T" + currentRegister);
+//            System.out.println("storing "+currentPrimary);
 
+            ir.add("STORE" + dataType + " " + pfe + " $T" + currentRegister);
+            pfe = "$T" + (currentRegister);
+            currentRegister++;
         }
         return pfe;
     }
+
 
     // various helper methods
     public void updateSymbolTable(LinkedHashMap<String, LinkedHashMap<String,String>> st){
         this.st = st;
     }
 
+    private boolean isNumberOrDecimal(char c){
+        if(     c == '.' ||
+                c == '0' ||
+                c == '1' ||
+                c == '2' ||
+                c == '3' ||
+                c == '4' ||
+                c == '5' ||
+                c == '6' ||
+                c == '7' ||
+                c == '8' ||
+                c == '9') {
+            return true;
+        }
+        return false;
+    }
+
+    private boolean isLetterOrDigit(String s){
+        return s.matches("\\+ | \\- | \\* | \\/ || \\( | \\)");
+    }
+
     // returns the precedence for a given operator
-    private int precedence(char symbol) {
-        if(symbol == '*' || symbol == '/') {
+    private int precedence(String symbol) {
+        if(symbol.equals("*") || symbol.equals("/")) {
             return(2);
-        } else if(symbol == '+' || symbol == '-'){
+        } else if(symbol.equals("+") || symbol.equals("-")){
             return(1);
         } else {
             return(0);
@@ -223,7 +250,7 @@ public class IR {
 
     // returns true if the parameter is a number false otherwise
     private boolean isThisANumber(String number) {
-        return number.matches("[0-9]*(\\.[0-9]+)");
+        return number.matches("-?\\d*\\.?\\d+");
     }
 
     // print method to quickly print out the IR list

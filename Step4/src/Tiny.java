@@ -46,77 +46,81 @@ public class Tiny {
             } else if (ir.get(i).contains("READI")) {
                 output.add("sys readi " + currentIR[1]);  // handle STORE
             } else if(ir.get(i).contains("STOREI") || ir.get(i).contains("STOREF")){
-                if(currentIR[1].contains("$")){
-                    String[] parsedStore = currentIR[1].split("T");
-                    output.add("move r"+ (Integer.parseInt(parsedStore[1])-1) + " " + currentIR[2]);
-                } else {
-                    String[] parsedStore = currentIR[2].split("T");
-                    output.add("move "+ currentIR[1]+ " r"+(Integer.parseInt(parsedStore[1])-1));
-                }
+                String currentString = ir.get(i);
+                currentString = currentString.replace("$T","r");
+                String[] currentStringSplit = currentString.split(" ");
+                output.add("move "+currentStringSplit[1]+" "+currentStringSplit[2]);
+//                if(currentIR[1].contains("$")){
+//                    String[] parsedStore = currentIR[1].split("T");
+//                    output.add("move r"+ parsedStore[1] + " " + currentIR[2]);
+//                } else {
+//                    String[] parsedStore = currentIR[2].split("T");
+//                    output.add("move "+ currentIR[1]+ " r"+parsedStore[1]);
+//                }
             } else if (ir.get(i).contains("MULI")) { // handle MULI
                 String currentString = ir.get(i);
-                currentString = currentString.replace("$T","");
+                currentString = currentString.replace("$T","r");
                 String[] currentStringSplit = currentString.split(" ");
                 output.add("move "+currentStringSplit[1]+" " +
-                        "r"+(Integer.parseInt(currentStringSplit[3])-1));
+                        currentStringSplit[3]);
                 output.add("muli "+currentStringSplit[2]+" " +
-                        "r"+(Integer.parseInt(currentStringSplit[3])-1));
+                        currentStringSplit[3]);
             } else if (ir.get(i).contains("MULF")) { // handle MULF
                 String currentString = ir.get(i);
-                currentString = currentString.replace("$T","");
+                currentString = currentString.replace("$T","r");
                 String[] currentStringSplit = currentString.split(" ");
                 output.add("move "+currentStringSplit[1]+" " +
-                        "r"+(Integer.parseInt(currentStringSplit[3])-1));
+                        currentStringSplit[3]);
                 output.add("mulr "+currentStringSplit[2]+" " +
-                        "r"+(Integer.parseInt(currentStringSplit[3])-1));
-            }else if (ir.get(i).contains("DIVI")) { // handle DIBI
+                        currentStringSplit[3]);
+            }else if (ir.get(i).contains("DIVI")) { // handle DIVI
                 String currentString = ir.get(i);
-                currentString = currentString.replace("$T","");
+                currentString = currentString.replace("$T","r");
                 String[] currentStringSplit = currentString.split(" ");
                 output.add("move "+currentStringSplit[1]+" " +
-                        "r"+(Integer.parseInt(currentStringSplit[3])-1));
+                        currentStringSplit[3]);
                 output.add("divi "+currentStringSplit[2]+" " +
-                        "r"+(Integer.parseInt(currentStringSplit[3])-1));
+                        currentStringSplit[3]);
             } else if (ir.get(i).contains("DIVF")) { // handle SUBF
                 String currentString = ir.get(i);
-                currentString = currentString.replace("$T","");
+                currentString = currentString.replace("$T","r");
                 String[] currentStringSplit = currentString.split(" ");
                 output.add("move "+currentStringSplit[1]+" " +
-                        "r"+(Integer.parseInt(currentStringSplit[3])-1));
+                        currentStringSplit[3]);
                 output.add("divr "+currentStringSplit[2]+" " +
-                        "r"+(Integer.parseInt(currentStringSplit[3])-1));
+                        currentStringSplit[3]);
             } else if (ir.get(i).contains("ADDI")) { // handle ADDI
                 String currentString = ir.get(i);
-                currentString = currentString.replace("$T","");
+                currentString = currentString.replace("$T","r");
                 String[] currentStringSplit = currentString.split(" ");
                 output.add("move "+currentStringSplit[1]+" " +
-                        "r"+(Integer.parseInt(currentStringSplit[3])-1));
+                        currentStringSplit[3]);
                 output.add("addi "+currentStringSplit[2]+" " +
-                        "r"+(Integer.parseInt(currentStringSplit[3])-1));
+                        currentStringSplit[3]);
             } else if (ir.get(i).contains("ADDF")) { // handle ADDF
                 String currentString = ir.get(i);
-                currentString = currentString.replace("$T","");
+                currentString = currentString.replace("$T","r");
                 String[] currentStringSplit = currentString.split(" ");
                 output.add("move "+currentStringSplit[1]+" " +
-                        "r"+(Integer.parseInt(currentStringSplit[3])-1));
+                        currentStringSplit[3]);
                 output.add("addr "+currentStringSplit[2]+" " +
-                        "r"+(Integer.parseInt(currentStringSplit[3])-1));
+                        currentStringSplit[3]);
             } else if (ir.get(i).contains("SUBI")) { // handle SUBI
                 String currentString = ir.get(i);
-                currentString = currentString.replace("$T","");
+                currentString = currentString.replace("$T","r");
                 String[] currentStringSplit = currentString.split(" ");
                 output.add("move "+currentStringSplit[1]+" " +
-                        "r"+(Integer.parseInt(currentStringSplit[3])-1));
+                        currentStringSplit[3]);
                 output.add("subi "+currentStringSplit[2]+" " +
-                        "r"+(Integer.parseInt(currentStringSplit[3])-1));
+                        currentStringSplit[3]);
             } else if (ir.get(i).contains("SUBF")) { // handle SUBF
                 String currentString = ir.get(i);
-                currentString = currentString.replace("$T","");
+                currentString = currentString.replace("$T","r");
                 String[] currentStringSplit = currentString.split(" ");
                 output.add("move "+currentStringSplit[1]+" " +
-                        "r"+(Integer.parseInt(currentStringSplit[3])-1));
+                        currentStringSplit[3]);
                 output.add("subf "+currentStringSplit[2]+" " +
-                        "r"+(Integer.parseInt(currentStringSplit[3])-1));
+                        currentStringSplit[3]);
             }
         }
         output.add("sys halt");
