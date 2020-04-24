@@ -11,7 +11,7 @@ public class Tiny {
     public Tiny(ArrayList<String> ir, LinkedHashMap<String, LinkedHashMap<String,String>> st){
         this.ir = ir;
         this.st = st;
-        output = new ArrayList<String>();
+        output = new ArrayList<>();
     }
 
     // public interface to start building tiny code.
@@ -50,13 +50,6 @@ public class Tiny {
                 currentString = currentString.replace("$T","r");
                 String[] currentStringSplit = currentString.split(" ");
                 output.add("move "+currentStringSplit[1]+" "+currentStringSplit[2]);
-//                if(currentIR[1].contains("$")){
-//                    String[] parsedStore = currentIR[1].split("T");
-//                    output.add("move r"+ parsedStore[1] + " " + currentIR[2]);
-//                } else {
-//                    String[] parsedStore = currentIR[2].split("T");
-//                    output.add("move "+ currentIR[1]+ " r"+parsedStore[1]);
-//                }
             } else if (ir.get(i).contains("MULI")) { // handle MULI
                 String currentString = ir.get(i);
                 currentString = currentString.replace("$T","r");

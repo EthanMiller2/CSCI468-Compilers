@@ -73,8 +73,6 @@ class Listener extends LittleGBaseListener{
         ir.addElement(ctx.getText());
     }
 
-
-
     /*
     These methods are used when the listener enters a new scope.
     When entering a scope we push the new scope onto the scopestack

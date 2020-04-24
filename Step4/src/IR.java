@@ -5,22 +5,20 @@ public class IR {
     private LinkedHashMap<String, LinkedHashMap<String,String>> st;
     private int currentRegister = 1;
     private boolean notInMulOrAdd = true;
-    private String infixString;
     private ArrayList<String> infixExpression;
     private ArrayList<String> postfixExpression;
     private Stack<String> stack;
     private Stack<String> irStack;
-    private String postfixString;
     private String currentPrimary = "";
 
     // IR constructor
     public IR(LinkedHashMap<String, LinkedHashMap<String,String>> st){
         this.st = st;
-        ir = new ArrayList<String>();
-        stack = new Stack<String>();
-        irStack = new Stack<String>();
-        infixExpression = new ArrayList<String>();
-        postfixExpression = new ArrayList<String>();
+        ir = new ArrayList<>();
+        stack = new Stack<>();
+        irStack = new Stack<>();
+        infixExpression = new ArrayList<>();
+        postfixExpression = new ArrayList<>();
         ir.add("IR code");
     }
     // called when the listener exits the function
@@ -87,10 +85,7 @@ public class IR {
     // calls for all infix expressions be converted to postfix and subsequently
     // converts the postfix expressions into IR
     public void exitAssignment(String s){
-        infixString = "";
-
         postfixExpression.clear();
-        postfixString = "";
         stack.clear();
         convertInfixToPostfix();
         convertPostfixToIR();
@@ -99,7 +94,6 @@ public class IR {
             ir.add("STORE" + findKeyType(s) + " " + currentPrimary + " $T" + currentRegister);
             ir.add("STORE" + findKeyType(s) + " $T" + currentRegister + " " + s);
             currentRegister++;
-
         } else {
             notInMulOrAdd = true;
             ir.add("STORE" + findKeyType(s) + " $T" + (currentRegister-1) + " " + s);
@@ -109,17 +103,13 @@ public class IR {
     // converts the postfix expression generated into IR code and appends it to the IR list
     private void convertPostfixToIR(){
         String dataType = findDataType(postfixExpression.get(0));
-        for (String s : postfixExpression) {
-            System.out.print(s + " ");
-        }
-        System.out.println();
         for (String pfe : postfixExpression) {
             if (pfe.equals("+") || pfe.equals("-") || pfe.equals("*") || pfe.equals("/")) {
                 String operand2 = pfeToIR(irStack.remove(0));
                 String operand1 = pfeToIR(irStack.remove(0));
                 if(pfe.equals("*")){
                     irStack.add(0,"$T"+currentRegister);
-                    ir.add("MULT"+dataType+" "+operand1+" "+operand2+ " $T"+currentRegister++);
+                    ir.add("MUL"+dataType+" "+operand1+" "+operand2+ " $T"+currentRegister++);
                 } else if (pfe.equals("/")){
                     irStack.add(0,"$T"+currentRegister);
                     ir.add("DIV"+dataType+" "+operand1+" "+operand2+ " $T"+currentRegister++);
@@ -128,25 +118,20 @@ public class IR {
                     ir.add("ADD"+dataType+" "+operand1+" "+operand2+ " $T"+currentRegister++);
                 } else if(pfe.equals("-")){
                     irStack.add(0,"$T"+currentRegister);
-//                    System.out.println("op1 :"+operand1 + " op2:"+operand2);
                     ir.add("SUB"+dataType+" "+operand1+" "+operand2+ " $T"+currentRegister++);
                 }
             } else {
                 irStack.add(0, pfe);
             }
         }
-
     }
 
     // converts and infix string to postfix notation to be easily converted later on
     public void convertInfixToPostfix(){
-//        if(infixExpression.get(0).equals("(")){
-//            infixExpression.remove(0);
-//        }
         for (int i = 0; i < infixExpression.size(); i++) {
             String x = infixExpression.get(i);
 
-            if (!isLetterOrDigit(x)){
+            if (!x.equals("(") && !x.equals(")") && !x.equals("*") && !x.equals("+") && !x.equals("-") && !x.equals("/")){
                 postfixExpression.add(x);
             } else if (x.equals("(")){
                 stack.push(x);
@@ -164,6 +149,7 @@ public class IR {
             }
         }
     }
+
     // Helper method to convert a given post fix expression into IR
     private String pfeToIR(String pfe) {
         String dataType;
@@ -182,31 +168,9 @@ public class IR {
         return pfe;
     }
 
-
     // various helper methods
     public void updateSymbolTable(LinkedHashMap<String, LinkedHashMap<String,String>> st){
         this.st = st;
-    }
-
-    private boolean isNumberOrDecimal(char c){
-        if(     c == '.' ||
-                c == '0' ||
-                c == '1' ||
-                c == '2' ||
-                c == '3' ||
-                c == '4' ||
-                c == '5' ||
-                c == '6' ||
-                c == '7' ||
-                c == '8' ||
-                c == '9') {
-            return true;
-        }
-        return false;
-    }
-
-    private boolean isLetterOrDigit(String s){
-        return s.matches("\\+ | \\- | \\* | \\/ || \\( | \\)");
     }
 
     // returns the precedence for a given operator
